@@ -6,6 +6,7 @@ import logoImg from '../../public/logo.png';
 
 import { Input } from '../components/ui/Input/index';
 import { Button } from '../components/ui/Button/index';
+import Link from '../../node_modules/next/link';
 
 export default function Home() {
   return (
@@ -25,7 +26,9 @@ export default function Home() {
             </Button>
           </form>
 
-          <a className={styles.text}>Não possui uma conta? Cadastre-se</a>
+          <Link href="/signup">
+            <a className={styles.text}>Não possui uma conta? Cadastre-se</a>
+          </Link>
         </div>
       </div>
     </>
