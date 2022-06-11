@@ -27,8 +27,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<UserProps>();
   const isAuthenticated = !!user;
 
-  async function signIn() {
-    alert('Clicou no login!');
+  async function signIn({ email, password }: SignInProps) {
+    // alert('Clicou no login!');
+    console.log('DADOS PARA LOGAR: ', email);
+    console.log('DADOS PARA LOGAR: ', password);
   }
 
   return (
