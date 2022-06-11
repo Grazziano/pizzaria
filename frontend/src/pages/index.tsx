@@ -23,18 +23,27 @@ export default function Home() {
   async function handleLogin(event: FormEvent) {
     event.preventDefault();
 
+    if (email === '' || password === '') {
+      alert('Preencha os dados');
+      return;
+    }
+
+    setLoading(true);
+
     let data = {
       email,
       password,
     };
 
     await signIn(data);
+
+    setLoading(false);
   }
 
   return (
     <>
       <Head>
-        <title>Best Pizza - Faca seu login</title>
+        <title>SujeitoPizza - Faça seu login</title>
       </Head>
       <div className={styles.containerCenter}>
         <Image src={logoImg} alt="Logo Sujeito Pizzaria" />
@@ -47,19 +56,21 @@ export default function Home() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
+
             <Input
               placeholder="Sua senha"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <Button type="submit" loading={false}>
+
+            <Button type="submit" loading={loading}>
               Acessar
             </Button>
           </form>
 
           <Link href="/signup">
-            <a className={styles.text}>Não possui uma conta? Cadastre-se</a>
+            <a className={styles.text}>Nao possui uma conta? Cadastre-se</a>
           </Link>
         </div>
       </div>

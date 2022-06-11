@@ -37,7 +37,7 @@ export function signOut() {
   try {
     destroyCookie(undefined, '@nextauth.token');
     Router.push('/');
-  } catch (error) {
+  } catch {
     console.log('erro ao deslogar');
   }
 }
@@ -52,12 +52,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
         email,
         password,
       });
-      console.log(response.data);
+      // console.log(response.data);
 
       const { id, name, token } = response.data;
 
       setCookie(undefined, '@nextauth.token', token, {
-        maxAge: 60 * 60 * 24 * 30, // Expira em 1 mes
+        maxAge: 60 * 60 * 24 * 30, // Expirar em 1 mes
         path: '/', // Quais caminhos terao acesso ao cookie
       });
 
@@ -67,13 +67,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
         email,
       });
 
-      // passar para proximas requisicoes o token
-      api.defaults.headers['Authorization'] = `Baerer ${token}`;
+      //Passar para proximas requisiçoes o nosso token
+      api.defaults.headers['Authorization'] = `Bearer ${token}`;
 
-      // redirecionar o user para /dashboard
+      //Redirecionar o user para /dashboard
       Router.push('/dashboard');
-    } catch (error) {
-      console.log('Erro ao acessar ', error);
+    } catch (err) {
+      console.log('ERRO AO ACESSAR ', err);
     }
   }
 
