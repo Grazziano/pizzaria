@@ -1,6 +1,12 @@
 import { createContext, ReactNode, useState } from 'react';
 
-import { destroyCookie } from '../../node_modules/nookies/dist/index';
+import { api } from '../services/apiClient';
+
+import {
+  destroyCookie,
+  setCookie,
+  parseCookies,
+} from '../../node_modules/nookies/dist/index';
 import Router from '../../node_modules/next/router';
 
 type AuthContextData = {
@@ -41,9 +47,34 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const isAuthenticated = !!user;
 
   async function signIn({ email, password }: SignInProps) {
-    // alert('Clicou no login!');
-    console.log('DADOS PARA LOGAR: ', email);
-    console.log('DADOS PARA LOGAR: ', password);
+    try {
+      const response = await api.post('/session', {
+        email,
+        password,
+      });
+      console.log(response.data);
+
+      const { id, name, token } = response.data;
+
+      setCookie(undefined, '@nextauth.token', token, {
+        maxAge: 60 * 60 * 24 * 30, // Expira em 1 mes
+        path: '/', // Quais caminhos terao acesso ao cookie
+      });
+
+      setUser({
+        id,
+        name,
+        email,
+      });
+
+      // passar para proximas requisicoes o token
+      api.defaults.headers['Authorization'] = `Baerer ${token}`;
+
+      // redirecionar o user para /dashboard
+      Router.push('/dashboard');
+    } catch (error) {
+      console.log('Erro ao acessar ', error);
+    }
   }
 
   return (
