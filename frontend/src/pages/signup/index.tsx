@@ -1,16 +1,20 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent, useContext, useState } from 'react';
 
 import Head from '../../../node_modules/next/head';
 import Image from '../../../node_modules/next/image';
-import styles from '../../../styles/home.module.scss';
+import styles from '../../../styles/Home.module.scss';
 
 import logoImg from '../../../public/logo.png';
 
 import { Input } from '../../components/ui/Input/index';
 import { Button } from '../../components/ui/Button/index';
+import { AuthContext } from '../../contexts/AuthContext';
+
 import Link from '../../../node_modules/next/link';
 
 export default function SignUp() {
+  const { signUp } = useContext(AuthContext);
+
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -27,8 +31,22 @@ export default function SignUp() {
 
     setLoading(true);
 
+    let data = {
+      name,
+      email,
+      password,
+    };
+
+    await signUp(data);
+
     setLoading(false);
   }
+
+  // function stopForm (event) {
+  //   console.log('Chamou o stopForm');
+  //   event.preventDefault();
+  //   console.log('Acabou o stopForm');
+  // }
 
   return (
     <>

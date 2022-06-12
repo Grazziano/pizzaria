@@ -2,7 +2,7 @@ import { FormEvent, useContext, useState } from 'react';
 
 import Head from '../../node_modules/next/head';
 import Image from '../../node_modules/next/image';
-import styles from '../../styles/home.module.scss';
+import styles from '../../styles/Home.module.scss';
 
 import logoImg from '../../public/logo.png';
 

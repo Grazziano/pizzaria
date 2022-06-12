@@ -14,6 +14,7 @@ type AuthContextData = {
   isAuthenticated: boolean;
   signIn: (credentials: SignInProps) => Promise<void>;
   signOut: () => void;
+  signUp: (credentials: SignUpProps) => Promise<void>;
 };
 
 type UserProps = {
@@ -23,6 +24,12 @@ type UserProps = {
 };
 
 type SignInProps = {
+  email: string;
+  password: string;
+};
+
+type SignUpProps = {
+  name: string;
   email: string;
   password: string;
 };
@@ -77,8 +84,26 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   }
 
+  async function signUp({ name, email, password }: SignUpProps) {
+    try {
+      const response = api.post('/users', {
+        name,
+        email,
+        password,
+      });
+
+      console.log('Cadastrado com sucesso!');
+
+      Router.push('/');
+    } catch (error) {
+      console.log('Erro ao cadastrar: ', error);
+    }
+  }
+
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, signIn, signOut }}>
+    <AuthContext.Provider
+      value={{ user, isAuthenticated, signIn, signOut, signUp }}
+    >
       {children}
     </AuthContext.Provider>
   );
