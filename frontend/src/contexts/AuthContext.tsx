@@ -8,6 +8,8 @@ import {
   parseCookies,
 } from '../../node_modules/nookies/dist/index';
 import Router from '../../node_modules/next/router';
+// import { toast } from '../../node_modules/react-toastify/dist/index';
+const { toast } = require('react-toastify');
 
 type AuthContextData = {
   user: UserProps;
@@ -77,9 +79,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
       //Passar para proximas requisiçoes o nosso token
       api.defaults.headers['Authorization'] = `Bearer ${token}`;
 
+      toast.success('Logado com sucesso!');
+
       //Redirecionar o user para /dashboard
       Router.push('/dashboard');
     } catch (err) {
+      toast.error('Erro ao acesar!');
       console.log('ERRO AO ACESSAR ', err);
     }
   }
@@ -94,8 +99,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
       console.log('Cadastrado com sucesso!');
 
+      toast.success('Conta criada com sucesso!');
+
       Router.push('/');
     } catch (error) {
+      toast.error('Erro ao cadastrar!');
       console.log('Erro ao cadastrar: ', error);
     }
   }

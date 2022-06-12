@@ -11,6 +11,7 @@ import { Button } from '../components/ui/Button/index';
 import Link from '../../node_modules/next/link';
 
 import { AuthContext } from '../contexts/AuthContext';
+const { toast } = require('react-toastify');
 
 export default function Home() {
   const { signIn } = useContext(AuthContext);
@@ -24,7 +25,7 @@ export default function Home() {
     event.preventDefault();
 
     if (email === '' || password === '') {
-      alert('Preencha os dados');
+      toast.warn('Preencha os campos');
       return;
     }
 
@@ -52,7 +53,7 @@ export default function Home() {
           <form onSubmit={handleLogin}>
             <Input
               placeholder="Digite seu email"
-              type="text"
+              type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />

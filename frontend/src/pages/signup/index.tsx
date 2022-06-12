@@ -11,6 +11,8 @@ import { Button } from '../../components/ui/Button/index';
 import { AuthContext } from '../../contexts/AuthContext';
 
 import Link from '../../../node_modules/next/link';
+// import { toast } from '../../../node_modules/react-toastify/dist/index';
+const { toast } = require('react-toastify');
 
 export default function SignUp() {
   const { signUp } = useContext(AuthContext);
@@ -25,7 +27,7 @@ export default function SignUp() {
     event.preventDefault();
 
     if (name === '' || email === '' || password === '') {
-      alert('Preencha todos os campos');
+      toast.error('Preencha todos os campos');
       return;
     }
 
@@ -67,7 +69,7 @@ export default function SignUp() {
             />
             <Input
               placeholder="Digite seu email"
-              type="text"
+              type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
