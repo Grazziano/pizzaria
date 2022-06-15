@@ -1,18 +1,18 @@
-import { FormEvent, useContext, useState } from 'react';
+import { useState, FormEvent, useContext } from 'react';
 
-import Head from '../../../node_modules/next/head';
-import Image from '../../../node_modules/next/image';
-import styles from '../../../styles/Home.module.scss';
+import Head from 'next/head';
+import Image from 'next/image';
+import styles from '../../../styles/home.module.scss';
 
 import logoImg from '../../../public/logo.png';
 
-import { Input } from '../../components/ui/Input/index';
-import { Button } from '../../components/ui/Button/index';
-import { AuthContext } from '../../contexts/AuthContext';
+import { Input } from '../../components/ui/Input';
+import { Button } from '../../components/ui/Button';
 
-import Link from '../../../node_modules/next/link';
-// import { toast } from '../../../node_modules/react-toastify/dist/index';
-const { toast } = require('react-toastify');
+import { AuthContext } from '../../contexts/AuthContext';
+import { toast } from 'react-toastify';
+
+import Link from 'next/link';
 
 export default function SignUp() {
   const { signUp } = useContext(AuthContext);
@@ -44,12 +44,6 @@ export default function SignUp() {
     setLoading(false);
   }
 
-  // function stopForm (event) {
-  //   console.log('Chamou o stopForm');
-  //   event.preventDefault();
-  //   console.log('Acabou o stopForm');
-  // }
-
   return (
     <>
       <Head>
@@ -60,6 +54,7 @@ export default function SignUp() {
 
         <div className={styles.login}>
           <h1>Criando sua conta</h1>
+
           <form onSubmit={handleSignUp}>
             <Input
               placeholder="Digite seu nome"
@@ -67,18 +62,21 @@ export default function SignUp() {
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
+
             <Input
               placeholder="Digite seu email"
-              type="email"
+              type="text"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
+
             <Input
               placeholder="Sua senha"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
+
             <Button type="submit" loading={loading}>
               Cadastrar
             </Button>

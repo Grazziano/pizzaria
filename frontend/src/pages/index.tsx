@@ -1,17 +1,18 @@
-import { FormEvent, useContext, useState } from 'react';
+import { useContext, FormEvent, useState } from 'react';
 
-import Head from '../../node_modules/next/head';
-import Image from '../../node_modules/next/image';
-import styles from '../../styles/Home.module.scss';
+import Head from 'next/head';
+import Image from 'next/image';
+import styles from '../../styles/home.module.scss';
 
 import logoImg from '../../public/logo.png';
 
-import { Input } from '../components/ui/Input/index';
-import { Button } from '../components/ui/Button/index';
-import Link from '../../node_modules/next/link';
+import { Input } from '../components/ui/Input';
+import { Button } from '../components/ui/Button';
+import { toast } from 'react-toastify';
 
 import { AuthContext } from '../contexts/AuthContext';
-const { toast } = require('react-toastify');
+
+import Link from 'next/link';
 
 export default function Home() {
   const { signIn } = useContext(AuthContext);
@@ -25,7 +26,7 @@ export default function Home() {
     event.preventDefault();
 
     if (email === '' || password === '') {
-      toast.warn('Preencha os campos');
+      toast.error('Preencha os campos');
       return;
     }
 
@@ -53,7 +54,7 @@ export default function Home() {
           <form onSubmit={handleLogin}>
             <Input
               placeholder="Digite seu email"
-              type="email"
+              type="text"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />

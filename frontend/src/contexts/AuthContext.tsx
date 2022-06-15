@@ -2,14 +2,10 @@ import { createContext, ReactNode, useState } from 'react';
 
 import { api } from '../services/apiClient';
 
-import {
-  destroyCookie,
-  setCookie,
-  parseCookies,
-} from '../../node_modules/nookies/dist/index';
-import Router from '../../node_modules/next/router';
-// import { toast } from '../../node_modules/react-toastify/dist/index';
-const { toast } = require('react-toastify');
+import { destroyCookie, setCookie, parseCookies } from 'nookies';
+import Router from 'next/router';
+
+import { toast } from 'react-toastify';
 
 type AuthContextData = {
   user: UserProps;
@@ -84,27 +80,25 @@ export function AuthProvider({ children }: AuthProviderProps) {
       //Redirecionar o user para /dashboard
       Router.push('/dashboard');
     } catch (err) {
-      toast.error('Erro ao acesar!');
+      toast.error('Erro ao acessar!');
       console.log('ERRO AO ACESSAR ', err);
     }
   }
 
   async function signUp({ name, email, password }: SignUpProps) {
     try {
-      const response = api.post('/users', {
+      const response = await api.post('/users', {
         name,
         email,
         password,
       });
 
-      console.log('Cadastrado com sucesso!');
-
       toast.success('Conta criada com sucesso!');
 
       Router.push('/');
-    } catch (error) {
+    } catch (err) {
       toast.error('Erro ao cadastrar!');
-      console.log('Erro ao cadastrar: ', error);
+      console.log('erro ao cadastrar ', err);
     }
   }
 

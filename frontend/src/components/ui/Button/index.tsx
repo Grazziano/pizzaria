@@ -1,7 +1,7 @@
 import { ReactNode, ButtonHTMLAttributes } from 'react';
 import styles from './styles.module.scss';
 
-const { FaSpinner } = require('react-icons/fa');
+import { FaSpinner } from 'react-icons/fa';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   loading?: boolean;
@@ -12,11 +12,9 @@ export function Button({ loading, children, ...rest }: ButtonProps) {
   return (
     <button className={styles.button} disabled={loading} {...rest}>
       {loading ? (
-        <FaSpinner color="#fff" size={16} />
+        <FaSpinner color="#FFF" size={16} />
       ) : (
-        <a href="" className={styles.buttonText}>
-          {children}
-        </a>
+        <a className={styles.buttonText}>{children}</a>
       )}
     </button>
   );
