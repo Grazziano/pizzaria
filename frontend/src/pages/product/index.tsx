@@ -1,6 +1,7 @@
 import Head from 'next/head';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 import { FiUpload } from 'react-icons/fi';
+import { toast } from 'react-toastify';
 import { Header } from '../../components/Header';
 import { setupAPIClient } from '../../services/api';
 import { canSSRAuth } from '../../utils/canSSRAuth';
@@ -18,8 +19,12 @@ interface CategoryProps {
 export default function Product({ categoryList }: CategoryProps) {
   // console.log(categoryList);
 
+  const [name, setName] = useState('');
+  const [price, setPrice] = useState('');
+  const [description, setDescription] = useState('');
+
   const [avatarUrl, setAvatarUrl] = useState('');
-  const [imageAvatar, setImageAvater] = useState(null);
+  const [imageAvatar, setImageAvatar] = useState(null);
 
   const [categories, setCategories] = useState(categoryList || []);
   const [categorySelected, setCategorySelected] = useState(0);
@@ -37,7 +42,7 @@ export default function Product({ categoryList }: CategoryProps) {
     }
 
     if (image.type === 'image/jpeg' || image.type === 'image/png') {
-      setImageAvater(image);
+      setImageAvatar(image);
       setAvatarUrl(URL.createObjectURL(event.target.files[0]));
     }
   }
@@ -47,6 +52,45 @@ export default function Product({ categoryList }: CategoryProps) {
     // console.log('Posição da categoria selecionada ', event.target.value);
     // console.log('Categoria selecionada ', categories[event.target.value]);
     setCategorySelected(event.target.value);
+  }
+
+  async function handleRegister(event: FormEvent) {
+    event.preventDefault();
+
+    try {
+      const data = new FormData();
+
+      if (
+        name === '' ||
+        price === '' ||
+        description === '' ||
+        imageAvatar === null
+      ) {
+        toast.error('Preencha todos os campos!');
+        return;
+      }
+
+      data.append('name', name);
+      data.append('price', price);
+      data.append('description', description);
+      data.append('category_id', categories[categorySelected].id);
+      data.append('file', imageAvatar);
+
+      const apiClient = setupAPIClient();
+
+      await apiClient.post('/product', data);
+
+      toast.success('Produto cadastrado com sucesso!');
+    } catch (error) {
+      console.log(error);
+      toast.error('Ops erro ao cadastrar!');
+    }
+
+    setName('');
+    setPrice('');
+    setDescription('');
+    setImageAvatar(null);
+    setAvatarUrl('');
   }
 
   return (
@@ -60,7 +104,7 @@ export default function Product({ categoryList }: CategoryProps) {
         <main className={styles.container}>
           <h1>Novo produto</h1>
 
-          <form className={styles.form}>
+          <form className={styles.form} onSubmit={handleRegister}>
             <label className={styles.labelAvatar}>
               <span>
                 <FiUpload size={30} color="#FFF" />
@@ -97,17 +141,23 @@ export default function Product({ categoryList }: CategoryProps) {
               type="text"
               placeholder="Digite o nome do produto"
               className={styles.input}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
             />
 
             <input
               type="text"
               placeholder="Preço do produto"
               className={styles.input}
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
             />
 
             <textarea
               placeholder="Descreva o produto..."
               className={styles.input}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
             />
 
             <button className={styles.buttonAdd} type="submit">
