@@ -52,6 +52,10 @@ export default function ModalOrder({
             </span>
           </section>
         ))}
+
+        <button className={styles.buttonOrder} onClick={() => {}}>
+          Concluir pedido
+        </button>
       </div>
     </Modal>
   );
