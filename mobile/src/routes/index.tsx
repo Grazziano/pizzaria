@@ -5,8 +5,7 @@ import AppRoutes from './app.routes';
 import AuthRoutes from './auth.routes';
 
 export default function Routes() {
-  const { isAuthenticated } = useContext(AuthContext);
-  const loading = false;
+  const { isAuthenticated, loading } = useContext(AuthContext);
 
   if (loading) {
     return (
@@ -18,7 +17,7 @@ export default function Routes() {
           alignItems: 'center',
         }}
       >
-        <ActivityIndicator size={60} color="#FFF" />
+        <ActivityIndicator size={60} color='#FFF' />
       </View>
     );
   }

@@ -6,11 +6,12 @@ import {
   Image,
   TextInput,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import { AuthContext } from '../../context/AuthContext';
 
 export default function SignIn() {
-  const { signIn } = useContext(AuthContext);
+  const { signIn, loadingAuth } = useContext(AuthContext);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -28,17 +29,17 @@ export default function SignIn() {
       <Image style={styles.logo} source={require('../../assets/logo.png')} />
       <View style={styles.inputContainer}>
         <TextInput
-          placeholder="Digite seu email"
+          placeholder='Digite seu email'
           style={styles.input}
-          placeholderTextColor="#F0F0F0"
+          placeholderTextColor='#F0F0F0'
           value={email}
           // onChangeText={(text) => setEmail(text)}
           onChangeText={setEmail}
         />
         <TextInput
-          placeholder="Digite sua senha"
+          placeholder='Digite sua senha'
           style={styles.input}
-          placeholderTextColor="#F0F0F0"
+          placeholderTextColor='#F0F0F0'
           secureTextEntry={true}
           value={password}
           // onChangeText={(text) => setPassword(text)}
@@ -46,7 +47,11 @@ export default function SignIn() {
         />
 
         <TouchableOpacity style={styles.button} onPress={handleLogin}>
-          <Text style={styles.buttonText}>Acessar</Text>
+          {loadingAuth ? (
+            <ActivityIndicator size={25} color='#FFF' />
+          ) : (
+            <Text style={styles.buttonText}>Acessar</Text>
+          )}
         </TouchableOpacity>
       </View>
     </View>
